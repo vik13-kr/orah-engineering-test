@@ -1,0 +1,33 @@
+.input_container {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  /* height: 100px; */
+  padding: 0;
+  background: white;
+  border-radius: 10px;
+  width: 50%;
+}
+
+.searchIcon {
+  background: white;
+  color: #343f64;
+  font-size: 5px;
+}
+
+.input {
+  border: none;
+  outline: none;
+  background-color: white;
+  /* border: 1px solid red; */
+  flex: 1;
+  border-radius: 10px 0 0 10px;
+  padding-left: 10px;
+}
+
+.icon {
+  color: #343f64;
+  cursor: pointer;
+}
