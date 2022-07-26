@@ -43,7 +43,7 @@ export const SearchStudentInput = ({ toogleInput }) => {
   return (
     <div className="input_container">
       <input className="input" placeholder="Search Student" value={searchKeywords} onChange={handleInput} autoFocus />
-      <SearchIcon className="searchIcon icon" />
+      {/* <SearchIcon className="searchIcon icon" /> */}
       <CloseIcon
         className="icon"
         onClick={() => {

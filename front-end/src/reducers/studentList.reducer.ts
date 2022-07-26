@@ -9,6 +9,7 @@ export const studentListSlice = createSlice({
     setStudentListReducer: (state, action) => {
       return [...action.payload]
     },
+   
   },
 })
 

@@ -16,12 +16,11 @@ import { SearchStudentInput } from "staff-app/components/search-student-overlay/
 import LoadingSpinner from "shared/components/loading-spinner"
 
 export const HomeBoardPage: React.FC = () => {
+  const dispatch = useDispatch()
   const [isRollMode, setIsRollMode] = useState(false)
+  const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   const { loading: searchLoading, results: studentMatchesList } = useSelector((state: any) => state?.studentSearch)
-
-  const dispatch = useDispatch()
-  const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
     void getStudents()
@@ -29,7 +28,11 @@ export const HomeBoardPage: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      dispatch(setStudentListReducer(data.students))
+      const modifiedList = data?.students?.map((s) => {
+        const a = { ...s, rollMark: "unmark" }
+        return a
+      })
+      dispatch(setStudentListReducer(modifiedList))
     }
   }, [data])
 
@@ -97,6 +100,7 @@ interface ToolbarProps {
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
   const [showSearchInput, setshowSearchInput] = useState<boolean>(false)
+
   const { onItemClick } = props
 
   const toogleSearchInput = (state: boolean) => {
@@ -107,7 +111,6 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
     <S.ToolbarContainer>
       <div onClick={() => onItemClick("sort")}>First Name</div>
       {!showSearchInput ? <div onClick={() => toogleSearchInput(true)}>Search</div> : <SearchStudentInput toogleInput={toogleSearchInput} />}
-
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
   )
