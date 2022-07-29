@@ -15,6 +15,7 @@ import { setStudentListReducer } from "reducers/studentList.reducer"
 import { SearchStudentInput } from "staff-app/components/search-student-overlay/search-student.component"
 import LoadingSpinner from "shared/components/loading-spinner"
 import FilteredStudent from "staff-app/components/filtered-student-rollType/FilteredStudent"
+import SortToogle from "staff-app/components/sort-toogle/SortToogle"
 
 export const HomeBoardPage: React.FC = () => {
   const dispatch = useDispatch()
@@ -28,6 +29,8 @@ export const HomeBoardPage: React.FC = () => {
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   const { loading: searchLoading, results: studentMatchesList } = useSelector((state: any) => state?.studentSearch)
+
+  const students = useSelector((state: any) => state?.students)
 
   useEffect(() => {
     void getStudents()
@@ -94,7 +97,7 @@ export const HomeBoardPage: React.FC = () => {
 
             {canShowAllStudentsLists() && (
               <>
-                {data?.students.map((s) => (
+                {students?.map((s: any) => (
                   <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
                 ))}
               </>
@@ -130,8 +133,22 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
 
   return (
     <S.ToolbarContainer>
-      <div onClick={() => onItemClick("sort")}>First Name</div>
-      {!showSearchInput ? <div onClick={() => toogleSearchInput(true)}>Search</div> : <SearchStudentInput toogleInput={toogleSearchInput} />}
+      <S.NameContainer style={{}}>
+        <S.Name onClick={() => onItemClick("sort")}>
+          First Name <SortToogle sortFor={"first_name"} />
+        </S.Name>
+        <S.Name onClick={() => onItemClick("sort")}>
+          Last Name <SortToogle sortFor={"last_name"} />
+        </S.Name>
+      </S.NameContainer>
+
+      {!showSearchInput ? (
+        <div style={{ flex: ".4" }} onClick={() => toogleSearchInput(true)}>
+          Search
+        </div>
+      ) : (
+        <SearchStudentInput toogleInput={toogleSearchInput} />
+      )}
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
   )
@@ -160,5 +177,15 @@ const S = {
       font-weight: ${FontWeight.strong};
       border-radius: ${BorderRadius.default};
     }
+  `,
+  Name: styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  `,
+  NameContainer: styled.div`
+    flex: 0.38;
+    display: flex;
+    flexdirection: row;
   `,
 }
