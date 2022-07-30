@@ -8,8 +8,9 @@ import { saveActiveRoll } from "api/save-active-roll"
 interface Options {
   url: Endpoint
   initialLoadState?: LoadState
+  params?: any
 }
-export function useApi<ReturnType = {}>({ url, initialLoadState = "loading" }: Options) {
+export function useApi<ReturnType = {}>({ url, initialLoadState = "loading", params }: Options) {
   const [state, dispatch] = useReducer(stateReducer<ReturnType>(), { data: undefined, loadState: initialLoadState, error: undefined })
   const callApi = useCallback(
     async (params?: object) => {

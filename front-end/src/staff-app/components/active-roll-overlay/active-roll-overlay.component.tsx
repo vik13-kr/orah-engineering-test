@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button"
 import { BorderRadius, Spacing } from "shared/styles/styles"
 import { RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
 import { useSelector } from "react-redux"
+import { useApi } from "shared/hooks/use-api"
+import { useNavigate } from "react-router-dom"
 
 export type ActiveRollAction = "filter" | "exit"
 interface Props {
@@ -13,7 +15,9 @@ interface Props {
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
+  const navigate = useNavigate()
   const students = useSelector((state: any) => state?.students)
+  const [callApi, data, loadState] = useApi({ url: "save-roll" })
 
   const [classSummary, setClassSummary] = useState<any>({ totalStudent: 0, present: 0, late: 0, absent: 0 })
 
@@ -43,6 +47,16 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
     onItemClick("filter", type)
   }
 
+  const handleComplete = async () => {
+    let arr = students.map((s: any) => {
+      return { student_id: s.id, roll_state: s.rollMark }
+    })
+    await callApi(arr)
+    navigate("/staff/activity")
+
+    // console.log("arr---", arr)
+  }
+
   return (
     <S.Overlay isActive={isActive}>
       <S.Content>
@@ -61,7 +75,7 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
             <Button color="inherit" onClick={() => onItemClick("exit")}>
               Exit
             </Button>
-            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={() => onItemClick("exit")}>
+            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={handleComplete}>
               Complete
             </Button>
           </div>

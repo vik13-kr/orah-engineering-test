@@ -15,6 +15,7 @@ export function addIfNotExist<T>(key: LocalStorageKey, value: T) {
 
 export function get<T>(key: LocalStorageKey) {
   const itemInStore = localStorage.getItem(key)
+
   return itemInStore ? (JSON.parse(itemInStore) as T) : undefined
 }
 
