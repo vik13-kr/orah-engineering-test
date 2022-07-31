@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import styled from "styled-components"
+import { color } from "../cards/Cards"
 
 const tableDataObj = {
   rollNo: null,
@@ -46,22 +47,24 @@ export default function Table({ selectedCard, studSummary, apiData, students }) 
 
   return (
     <T.StyledTable>
-      <thead>
+      <T.THeader>
         <tr>
           {headers.map((item) => (
-            <T.THeader key={item}>{item}</T.THeader>
+            <th key={item}>{item}</th>
           ))}
         </tr>
-      </thead>
+      </T.THeader>
       <tbody>
         {tableData?.map((item) => (
-          <tr>
+          <T.BodyRow>
             <T.TData>{item?.id}</T.TData>
             <T.TData>{item?.first_name}</T.TData>
             <T.TData>{item?.last_name}</T.TData>
-            <T.TData>{item?.status}</T.TData>
-            <T.TData>{new Date(item?.status).toString()}</T.TData>
-          </tr>
+            <T.TData>
+              <T.Pills status={item?.status}> {item?.status}</T.Pills>
+            </T.TData>
+            <T.TData>{new Date(item?.dateTime).toUTCString()}</T.TData>
+          </T.BodyRow>
         ))}
       </tbody>
     </T.StyledTable>
@@ -71,11 +74,28 @@ export default function Table({ selectedCard, studSummary, apiData, students }) 
 const T = {
   StyledTable: styled.table`
     width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1em;
   `,
-  THeader: styled.th`
+
+  THeader: styled.thead`
     color: red;
+    background: #343f63;
+    height: 50px;
+    color: white;
   `,
   TData: styled.td`
     text-align: center;
+    margin: 0.5rem;
+  `,
+  BodyRow: styled.tr`
+    margin-bottom: 0.5rem;
+    border: 1px solid red;
+  `,
+  Pills: styled.span`
+    background: ${(props) => color[props.status]};
+    padding: 0.2rem 0.5rem;
+    border-radius: 32px;
+    font-weight: 500;
   `,
 }

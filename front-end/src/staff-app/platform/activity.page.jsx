@@ -98,11 +98,9 @@ const S = {
   `,
   Table: styled.div`
     width: 70%;
-
-    border: 1px solid red;
   `,
   Chart: styled.div`
-    width: 25%;
-    border: 1px solid blue;
+    width: 30%;
+    ${"" /* border: 1px solid blue; */}
   `,
 }
