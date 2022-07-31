@@ -69,7 +69,7 @@ export const HomeBoardPage: React.FC = () => {
   }
 
   const canShowAllStudentsLists = () => {
-    return !studentMatchesList && loadState === "loaded" && data?.students
+    return !studentMatchesList && loadState === "loaded"
   }
 
   // console.log("selector----", searchLoading, studentMatches)
