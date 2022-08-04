@@ -10,17 +10,16 @@ export default function SortToogle({ sortFor }) {
   const dispatch = useDispatch()
 
   const handleSorting = (type) => {
-    console.log(sortFor, type)
     const temp = [...students]
 
     temp.sort((a, b) => {
-      let fa = a?.[sortFor].toLowerCase()
-      let fb = b?.[sortFor].toLowerCase()
+      let element1 = a?.[sortFor].toLowerCase()
+      let element2 = b?.[sortFor].toLowerCase()
 
-      if (fa > fb) {
+      if (element1 > element2) {
         return 1
       }
-      if (fa < fb) {
+      if (element1 < element2) {
         return -1
       }
 

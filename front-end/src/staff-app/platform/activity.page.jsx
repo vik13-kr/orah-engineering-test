@@ -56,8 +56,6 @@ export const ActivityPage = () => {
     }
   }, [students])
 
-  console.log("obj---", studSummary)
-
   if (loadState === "loading" && studSummary && data) return <LoadingSpinner />
 
   return (
